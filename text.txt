@@ -1,0 +1,388 @@
+--==================================================
+--                  PTL HUB UI
+--==================================================
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local Player = Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+-- Xóa UI cũ nếu đang tồn tại
+local OldGui = PlayerGui:FindFirstChild("PTL_HUB")
+if OldGui then
+    OldGui:Destroy()
+end
+
+--==================================================
+-- SCREEN GUI
+--==================================================
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "PTL_HUB"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
+
+--==================================================
+-- MAIN WINDOW
+--==================================================
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.Size = UDim2.fromOffset(580, 360)
+Main.Position = UDim2.new(0.5, -290, 0.5, -180)
+Main.BackgroundColor3 = Color3.fromRGB(15, 17, 16)
+Main.BorderSizePixel = 0
+Main.Parent = ScreenGui
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 16)
+MainCorner.Parent = Main
+
+local Stroke = Instance.new("UIStroke")
+Stroke.Color = Color3.fromRGB(55, 255, 120)
+Stroke.Transparency = 0.6
+Stroke.Thickness = 1
+Stroke.Parent = Main
+
+--==================================================
+-- TOP BAR
+--==================================================
+
+local TopBar = Instance.new("Frame")
+TopBar.Size = UDim2.new(1, 0, 0, 60)
+TopBar.BackgroundTransparency = 1
+TopBar.Parent = Main
+
+local Logo = Instance.new("TextLabel")
+Logo.Size = UDim2.fromOffset(60, 60)
+Logo.Position = UDim2.fromOffset(10, 0)
+Logo.BackgroundTransparency = 1
+Logo.Text = "P"
+Logo.TextColor3 = Color3.fromRGB(70, 255, 130)
+Logo.TextSize = 30
+Logo.Font = Enum.Font.GothamBold
+Logo.Parent = TopBar
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.fromOffset(200, 28)
+Title.Position = UDim2.fromOffset(65, 9)
+Title.BackgroundTransparency = 1
+Title.Text = "PTL HUB"
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 21
+Title.Font = Enum.Font.GothamBold
+Title.Parent = TopBar
+
+local Subtitle = Instance.new("TextLabel")
+Subtitle.Size = UDim2.fromOffset(250, 20)
+Subtitle.Position = UDim2.fromOffset(66, 34)
+Subtitle.BackgroundTransparency = 1
+Subtitle.Text = "Script Center • v1.0"
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left
+Subtitle.TextColor3 = Color3.fromRGB(125, 135, 130)
+Subtitle.TextSize = 12
+Subtitle.Font = Enum.Font.Gotham
+Subtitle.Parent = TopBar
+
+--==================================================
+-- CLOSE / MINIMIZE
+--==================================================
+
+local Minimize = Instance.new("TextButton")
+Minimize.Size = UDim2.fromOffset(35, 35)
+Minimize.Position = UDim2.new(1, -85, 0, 12)
+Minimize.BackgroundColor3 = Color3.fromRGB(28, 31, 29)
+Minimize.Text = "—"
+Minimize.TextColor3 = Color3.fromRGB(200, 200, 200)
+Minimize.TextSize = 18
+Minimize.Font = Enum.Font.GothamBold
+Minimize.Parent = TopBar
+
+Instance.new("UICorner", Minimize).CornerRadius = UDim.new(0, 9)
+
+local Close = Instance.new("TextButton")
+Close.Size = UDim2.fromOffset(35, 35)
+Close.Position = UDim2.new(1, -45, 0, 12)
+Close.BackgroundColor3 = Color3.fromRGB(28, 31, 29)
+Close.Text = "×"
+Close.TextColor3 = Color3.fromRGB(255, 100, 100)
+Close.TextSize = 22
+Close.Font = Enum.Font.GothamBold
+Close.Parent = TopBar
+
+Instance.new("UICorner", Close).CornerRadius = UDim.new(0, 9)
+
+--==================================================
+-- SIDEBAR
+--==================================================
+
+local Sidebar = Instance.new("Frame")
+Sidebar.Size = UDim2.fromOffset(145, 285)
+Sidebar.Position = UDim2.fromOffset(10, 65)
+Sidebar.BackgroundColor3 = Color3.fromRGB(20, 23, 21)
+Sidebar.BorderSizePixel = 0
+Sidebar.Parent = Main
+
+Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 12)
+
+local SideLayout = Instance.new("UIListLayout")
+SideLayout.Padding = UDim.new(0, 7)
+SideLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+SideLayout.Parent = Sidebar
+
+local SidePadding = Instance.new("UIPadding")
+SidePadding.PaddingTop = UDim.new(0, 12)
+SidePadding.Parent = Sidebar
+
+--==================================================
+-- CONTENT
+--==================================================
+
+local Content = Instance.new("Frame")
+Content.Size = UDim2.new(1, -175, 1, -80)
+Content.Position = UDim2.fromOffset(165, 70)
+Content.BackgroundTransparency = 1
+Content.Parent = Main
+
+local PageTitle = Instance.new("TextLabel")
+PageTitle.Size = UDim2.new(1, 0, 0, 30)
+PageTitle.BackgroundTransparency = 1
+PageTitle.Text = "Script Library"
+PageTitle.TextXAlignment = Enum.TextXAlignment.Left
+PageTitle.TextColor3 = Color3.fromRGB(255,255,255)
+PageTitle.TextSize = 20
+PageTitle.Font = Enum.Font.GothamBold
+PageTitle.Parent = Content
+
+--==================================================
+-- SEARCH
+--==================================================
+
+local Search = Instance.new("TextBox")
+Search.Size = UDim2.new(1, 0, 0, 38)
+Search.Position = UDim2.fromOffset(0, 40)
+Search.BackgroundColor3 = Color3.fromRGB(25, 28, 26)
+Search.PlaceholderText = "Search scripts..."
+Search.Text = ""
+Search.TextColor3 = Color3.fromRGB(255,255,255)
+Search.PlaceholderColor3 = Color3.fromRGB(110,120,115)
+Search.TextSize = 14
+Search.Font = Enum.Font.Gotham
+Search.ClearTextOnFocus = false
+Search.Parent = Content
+
+Instance.new("UICorner", Search).CornerRadius = UDim.new(0, 10)
+
+local SearchPadding = Instance.new("UIPadding")
+SearchPadding.PaddingLeft = UDim.new(0, 14)
+SearchPadding.Parent = Search
+
+--==================================================
+-- SCRIPT LIST
+--==================================================
+
+local ScriptList = Instance.new("ScrollingFrame")
+ScriptList.Size = UDim2.new(1, 0, 1, -90)
+ScriptList.Position = UDim2.fromOffset(0, 90)
+ScriptList.BackgroundTransparency = 1
+ScriptList.BorderSizePixel = 0
+ScriptList.ScrollBarThickness = 3
+ScriptList.ScrollBarImageColor3 = Color3.fromRGB(60,255,125)
+ScriptList.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ScriptList.CanvasSize = UDim2.new()
+ScriptList.Parent = Content
+
+local ScriptLayout = Instance.new("UIListLayout")
+ScriptLayout.Padding = UDim.new(0, 8)
+ScriptLayout.Parent = ScriptList
+
+--==================================================
+-- CREATE SCRIPT CARD
+--==================================================
+
+local ScriptCards = {}
+
+local function CreateScript(name, description, callback)
+
+    local Card = Instance.new("Frame")
+    Card.Name = name
+    Card.Size = UDim2.new(1, -5, 0, 58)
+    Card.BackgroundColor3 = Color3.fromRGB(23, 26, 24)
+    Card.BorderSizePixel = 0
+    Card.Parent = ScriptList
+
+    Instance.new("UICorner", Card).CornerRadius = UDim.new(0, 11)
+
+    local Name = Instance.new("TextLabel")
+    Name.Size = UDim2.new(1, -100, 0, 25)
+    Name.Position = UDim2.fromOffset(14, 7)
+    Name.BackgroundTransparency = 1
+    Name.Text = name
+    Name.TextXAlignment = Enum.TextXAlignment.Left
+    Name.TextColor3 = Color3.fromRGB(240,240,240)
+    Name.TextSize = 14
+    Name.Font = Enum.Font.GothamBold
+    Name.Parent = Card
+
+    local Description = Instance.new("TextLabel")
+    Description.Size = UDim2.new(1, -100, 0, 18)
+    Description.Position = UDim2.fromOffset(14, 31)
+    Description.BackgroundTransparency = 1
+    Description.Text = description
+    Description.TextXAlignment = Enum.TextXAlignment.Left
+    Description.TextColor3 = Color3.fromRGB(115,125,120)
+    Description.TextSize = 11
+    Description.Font = Enum.Font.Gotham
+    Description.Parent = Card
+
+    local Run = Instance.new("TextButton")
+    Run.Size = UDim2.fromOffset(65, 32)
+    Run.Position = UDim2.new(1, -78, 0.5, -16)
+    Run.BackgroundColor3 = Color3.fromRGB(50, 220, 110)
+    Run.Text = "RUN"
+    Run.TextColor3 = Color3.fromRGB(10,30,18)
+    Run.TextSize = 12
+    Run.Font = Enum.Font.GothamBold
+    Run.Parent = Card
+
+    Instance.new("UICorner", Run).CornerRadius = UDim.new(0, 9)
+
+    Run.MouseEnter:Connect(function()
+        TweenService:Create(
+            Run,
+            TweenInfo.new(0.15),
+            {BackgroundColor3 = Color3.fromRGB(80,255,140)}
+        ):Play()
+    end)
+
+    Run.MouseLeave:Connect(function()
+        TweenService:Create(
+            Run,
+            TweenInfo.new(0.15),
+            {BackgroundColor3 = Color3.fromRGB(50,220,110)}
+        ):Play()
+    end)
+
+    Run.MouseButton1Click:Connect(function()
+        if callback then
+            callback()
+        end
+    end)
+
+    table.insert(ScriptCards, {
+        frame = Card,
+        name = string.lower(name)
+    })
+end
+
+--==================================================
+-- YOUR SCRIPT ENTRIES
+--==================================================
+
+CreateScript("Banana Premium", "Premium Script", function()
+    print("Banana Premium selected")
+    --loadstring(game:HttpGet("https://isnahamzah.site/SubscribeYTisnahamzah/gantenghub30"))()
+end)
+
+CreateScript("Maru Premium", "Premium Script", function()
+    print("Maru Premium selected")
+end)
+
+CreateScript("W Azure Premium", "Premium Script", function()
+    print("W Azure Premium selected")
+end)
+
+CreateScript("Kaitun Banana", "Kaitun Script", function()
+    print("Kaitun Banana selected")
+end)
+
+CreateScript("Kaitun Maru", "Kaitun Script", function()
+    print("Kaitun Maru selected")
+end)
+
+CreateScript("Auto Bounty Banana", "Auto Bounty", function()
+    print("Auto Bounty Banana selected")
+end)
+
+--==================================================
+-- SIDEBAR BUTTON
+--==================================================
+
+local function CreateTab(text)
+
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(1, -18, 0, 38)
+    Button.BackgroundColor3 = Color3.fromRGB(27,30,28)
+    Button.Text = text
+    Button.TextColor3 = Color3.fromRGB(210,215,212)
+    Button.TextSize = 13
+    Button.Font = Enum.Font.GothamMedium
+    Button.Parent = Sidebar
+
+    Instance.new("UICorner", Button).CornerRadius = UDim.new(0, 9)
+
+    return Button
+end
+
+CreateTab("Home")
+CreateTab("Scripts")
+CreateTab("Kaitun")
+CreateTab("Auto Bounty")
+CreateTab("Settings")
+
+--==================================================
+-- SEARCH FUNCTION
+--==================================================
+
+Search:GetPropertyChangedSignal("Text"):Connect(function()
+
+    local query = string.lower(Search.Text)
+
+    for _,data in ipairs(ScriptCards) do
+        data.frame.Visible =
+            query == "" or string.find(data.name, query, 1, true) ~= nil
+    end
+
+end)
+
+--==================================================
+-- CLOSE / MINIMIZE
+--==================================================
+
+Close.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+local minimized = false
+
+Minimize.MouseButton1Click:Connect(function()
+
+    minimized = not minimized
+
+    if minimized then
+
+        TweenService:Create(
+            Main,
+            TweenInfo.new(0.25),
+            {Size = UDim2.fromOffset(580,60)}
+        ):Play()
+
+        Sidebar.Visible = false
+        Content.Visible = false
+
+    else
+
+        TweenService:Create(
+            Main,
+            TweenInfo.new(0.25),
+            {Size = UDim2.fromOffset(580,360)}
+        ):Play()
+
+        task.wait(0.2)
+
+        Sidebar.Visible = true
+        Content.Visible = true
+    end
+end)
